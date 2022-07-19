@@ -1,0 +1,125 @@
+++문제 풀이 중 알게 된것++
+배열 값을 클래스에서 받아와 println으로 출력하려면 배열을문자열 배열로 바꿔주어 출력해줄 필요가 있다.
+이때 import java.utill.Arrays를 사용하며 실행 코드로는 System.out.println(Arrays.toString(sim.solution(new int[]{3,4,3,2,5}, 5)));
+이런식으로 Arrays.toString(value값)을 넣어주면 된다.
+
+컬렉션이란 자바에서 자료구조를 표현하는 인터페이스를 말한다.
+리스트, 스택, 큐, 셋, 맵이 이 컬렉션이라는 인터페이스를 구현하고 있다.
+우리가 직접 자료구조를 만들때도 컬렉션 인터페이스를 상속해서 만들수도 있다고 한다.
+
+컬렉션 프레임워크란 다수의 데이터를 다루기 위한(데잍터 하나하나가 아님. 주의) 자료구조를 표현하고 사용하는 클래스의 '집합'을 말한다.
+컬렉션 인터페이스 종료
+List 순서가 있는 데이터의 집합이며 데이터의 중복을 허용한다.
+Set은 순서를 유지하지 않는 데이터의 집합이며 데이터의 중복을 허용하지 않는다.
+Map은 키와 값의 쌍으로 이루어진 데이터의 집합이다. 순서는 유지되지 않으며 키는 중복을 허용되지 않고, 값은 중복을 허용한다. 쉽게 말해 다른 언어를 배울때 말하는 딕셔너리라 이해하면 된다.
+Stack 마지막에 넣은 데이터를 먼저 꺼내는 자료구조. LIFO(Last In Frist Out)
+Queue 먼저 넣은 데이터를 먼저 꺼내는 자료구조. FIFO(First In Frist Out)
+
+list 사용법
+List<데이터타입> 변수명 = new ArrayList<>();
+변수명.get(0) //해당 list 변수의 0번째 값을 가져옴. 이런식
+set의 경우 List<데이터타입> 변수명 = new HashSet<>(); 이런식으로 쓴다는거 말고 동일.
+map의 경우는 Map<Integer(보통 숫자 데이터 타입), String(보통 문자 데이터타입> 변수명 = new HashMap<>(); 이런식으로 쓴다고 함.
+그외에 값을 넣는 경우 list와 set은 변수명.add(value)를 쓰지만 map은 변수명.put(value, value)를 씀
+
+스택의 LIFO 방식은 대표적으로 브라우저나 문서의 뒤로가기 앞으로 가기에 쓰인다.
+스택 생성 방식은 다음과 같다.
+Stack<Integer> stack = new Stack<>(); 
+값을 집어넣을때 변수명.push를 쓴다.
+맨위에 있는 값을 가져올때는 변수명.peek()
+변수명.pop은 맨위의 값을 가져오며 해당 변수에서 그 값을 빼내버림.
+
+컬렉션프레임워크에 공통적으로 사용되는 contains 함수는 입력한 특정 값이 해당 컬렉션 프레임워크에 존재하는지 여부를 알려줌
+
+큐의 생성 방식은 다음과 같다.
+Queue<Integer> queue =new LinkedList<>();
+값을 집어넣을때 리스트와 같이 변수명.add(value)를 쓴다.
+맨 아래에 있는 처음 넣은 값을 가져올때는 스택과 똑같이 변수명.peek()을 쓴다.
+변수명.poll()을 통해 맨 아래에 있는 처음 넣은 값을 가져오며 해당 변수에서 그 값을 빼내버린다.
+
+실무에서는 스택과 큐 대신이 어레이디큐(ArrayDeque)를 더 많이 사용한다. 기본 스택이나 큐의 기능을 다 포함하면서 pop, push, pull이런 함수들을 쓸수 있다.
+deque는 양쪽에서 값을 꺼내고 집어넣을수 있다. 생성방식은 다음과 같다.
+ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+값을 집어넣을때 큐처럼 앞에 넣고 싶으면 변수명.addFirst(value);를 쓴다.
+반대로 뒷열에 값을 넣고 싶으면 변수명.addLast(value);를 쓴다.
+addFirst, addLast대신 offerFirst, offerLast를 써도 된다. 차이점은 add의 경우 해당 큐가 용량 제한으로 인해 추가 실패할때 예외를 throw하고, offer는 false값을 반환해준다.
+또한 스택의 기능도 제공하기에 push를 쓸경우 FIFO방식으로 앞에 값을 추가할수 있고, pop을 쓸경우 앞에 들어간 값 하나를 빼올수도 있다.
+poll을 쓸경우 스택처럼 뒤에 값을 빼온다. peek의 경우도 그대로 사용가능하다.
+
+공장에서 생성 중인 콜라나, 오렌지 주스를 클래스로 비유하자면 제네릭스는 이런 생산품이 바뀔때마다 정해진 동작대로 움직이는 컨베이어 벨트라 보면 된다.
+컬렉션을 만들때 Integer, String 등을 집어넣어 선언해 주는 이유가 컬렉션이 제네릭스를 사용해 만들어졌기 때문이다.
+제네릭스를 쓰는 가장 대표적인 이유와 장점으로는 객체타입을 컴파일시에 체크해주기에 안정성이 높아지기 때문이다.
+컴파일시에 타입체크되서 클래스의 타입이 잘못되서 에러가 나거나 프로그램이 죽기 전인 실행전에 프로그램이 종료되기 때문이다.
+
+제네릭스 형식은 아래와 같다.
+public class 클래스명<T>{...}//{...}이안에 어떤 타입의 클래스가 오던지 그것을 명칭할거라는 의미로 쓴다.
+public interface 인터페이스명<T>{...} 
+or 꼭 클래스나 인터페이스가 아니더라도 옆에 <>을 집어넣고 안에T, E, K, V, N, R 이 알파벳 대문자를 집어넣으면 제네릭스의 표현이 된다.
+
+람다란 함수를 좀더 쉽게 곧바로 표현하는 방법을 말한다.
+public{} 이런게 없이 정의 가능.
+대신 같은 코드를 또 사용해야한다면 해당 코드를 또다시 넣어야 되어 중복해서 집어넣을 필요가 있는 코드의 경우 람다가 아닌 함수를 정의해 집어넣도록 하는게 좋다.
+++람다 예제++
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("korea");
+        list.add("japan");
+        list.add("france");
+        Stream<String> stream = list.stream();//stream은 list에 있는 String값들을 하나씩 하나씩 꺼내주는 함수이다.
+        stream.map(str -> str.toUpperCase()).forEach(it -> System.out.println(it));//map은 값을 바꿔줄때 쓰는 함수로, str -> str.toUpperCase()는 람다식이다. 문자열을 대문자로 바꿔준다는 뜻. str을 바꿔주는걸 넘어 println으로 출력해주는 코드를 집어넣으면 ;도 각 줄 코드에 붙여주고 마지막 코드는 return 을 붙여 넣어줘야 한다. forEach함수에 나오는 it -> System.out.println(it) 이건 이것들을 하나씩 반복해서 나타내달라는 람다식이다.
+    }//윗줄 람다식에 쓰인 str과 it은 임의의 변수이다. 무엇을 쓰든 stream내에 있는 값을 지칭하는 것이기에 알기 쉽게 명칭을 정해서 쓰면 된다. 또한 람다식 함수가 하나인 경우 forEach(System.out::println) 이런식으로 :: 두개를 붙여 간결하게 표현가능하다.
+}
+
+
+스트림이란 하나의 데이터의 흐름이라 칭할수 있다.
+즉, 스트림은 데이터가 여럿일 가능성이 높기에 마찬가지로 컬렉션을 이용할 때가 많다.
+List<>, Stack<> 등 컬렉션으로 정의한 변수에 Stream<String> stream = 변수.stream(); 이런식으로 선언하면 스트림이 선언된다.
+스트림을 사용하면 컬렉션의 데이터들이 한번에가 아니라  하나씩 꺼내줘서 출력된다.
+스트림은 선언할때 사용한 변수의 값을 바꾸지 않는다. 여기서 말하는 변수란 변수.stream()에 있는 변수를 말한다.
+새로 만들어진 steam이라는 변수 내에서만 바뀐 값이 존재한다.
+또한 stream에 쓰는 forEach는 리턴 타입이 보이드이기에 forEach가 붙는 경우 더이상 뒤에 해당 stream 변수를 사용한 함수를 붙일수 없다.
+이렇게 forEach가 쓰이면 더이상 해당 stream 변수를 사용하지 못하게 되므로 다시 새로운 stream 변수를 만들어야 한다.
+
+++알고리즘 문제 풀이 중 에러 해결++
+if(arr[i] == "p" || arr[i] == "P") -> if(arr[i] == 'p' || arr[i] == 'P') 이렇게 수정해야 됨.
+arr[i]를 앞에서 char 값으로 선언해줌.
+많은 언어들은 " 큰 따옴표와 ' 작은 따옴표를 똑같은 기능으로 쓰지만 자바의 경우 " 는 string 값을, '는 char값을 넣어줌.
+구분해 써줄 필요가 있음
+
+(string타입 변수).charAt(i); 는 string 타입을 하나씩 끊어서 char 배열로 만들어줌.
+
+class Solution {
+public boolean solution(String s) {
+boolean answer = true;
+if(!(s.length() == 4 || s.length() == 6)) return false;
+if(s.replaceAll("[^0-9]", " ").contains(" ")) return false;
+return answer;
+}
+}
+char로 표현된 '1' 같은 char 에 저장된 숫자는 int 와 같은 연산식을 사용가능하다.
+string은 char과는 달리 객체기 때문에 == 으로 비교할수 없다. 이 경우 str(//변수임).equals(문자열)로 == 대신 비교하자.
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("서울");
+        list.add("부산");
+        list.add("대구");
+        list.add("서울");
+        System.out.println(list);
+
+        List<String> result = list.stream().limit(2).collect(Collectors.toList());//앞에 있는 2개까지 stream 처리된것을 어떻게 모을건지  정의. 그와중 collectors.toList를 통해 또 다른 리스트를 만들거라 정의함.
+        System.out.println(result);//collect(Collectors.toList())를 통해 result는 list와 별도의 리스트로 생성됨.
+
+
+    }
+}
