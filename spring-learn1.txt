@@ -1,0 +1,209 @@
+REST와 RESTful API에 대한 설명이 잘 정리된 블로그.
+https://m.blog.naver.com/azure0777/221066646741
+스프링 지식을 쌓은뒤 다시 보도록 하자.
+
+++cs스터디++
+아스키코드 상 영어는 두자리수라 8비트로 한글자가 표현되나 한글은 네자리수이기에 16비트로 표현 가능핟다.
+
+api는 서버와 클라이언트간의 정보를 주고 받는 창구 역할을 한다.
+삭제, 수정, 조회 등 양쪽 사이에서 값을 받아오고, 보내주는 역할.
+
+생성자는 public + 클래스 명이 들어가있는데 메소드 형식을 생성자라 한다.
+생성자 안만들어도 기본생성자가 있는걸로 취급해주나 기본생성자 외에 다른 생성자를 만들때는 기본생성자를 하나 직접 써줘야한다.
+
+setter
+setter는 자바를 사용시 보안을 위해 쉽게 값을 못바꾸게 private를 각 멤버변수에 선언해주는데, private걸린 변수들의 값을 수정하기 위해 사용하는 메소드의 형식이다.
+관습적으로 사용하는 Setter방식
+public void set+멤버변수*단 멤버변수의 첫글자는 대문자로 써준다(멤버변수의 타입 멤버변수 명){
+this.멤버변수명 = 외부에서 전달받은 변수명;}
+
+getter
+getter은 자바를 사용시 보안을 위해 쉽게 값을 볼수 없게 private를 각 멤버변수에선언해 주는데, private걸린 변수들의 값을 보기 위해 사용하는 메소드의 형식이다.
+관습적으로 사용하는 Getter방식
+public 멤버변수타입 get+멤버변수*단 멤버변수의 첫글자는 대문자로 써준다(){
+return this.멤버변수명}
+
+rest는 서버의 응답이 JSON 형식임을 나타낸다.
+controller는 누군가 말을 걸면 응당하는 자동응답기라 보면된다.
+restController는 json으로 응답하는 자동응답기를 말한다.
+클래스 위에 @RestController 를 써주면 해당 클래스는 restController이 된다.
+
+그레이들(gradle)은 다른 사람들이 만들어 놓은 코드를 내려받는 걸 도와준다.
+또한 인터넷에 스프링 프로젝트를 배포할수 있게 도와주기도 한다.
+자바는 mavenCentral과 jcenter을 이용하여 다른사람이 만들어 놓은 라이브러리를 찾을 수도 있다.
+
+mavenrepository라는 홈페이지에서 라이브러리를 찾아 gradle를 선택시 나오는 코드를 복사하여 프로젝트 src폴더의 build.gradle라는 파일의 dependencies {} 안에 붙여넣고 실행하면 해당 라이브러리가 적용된다.
+
+RDBMS란 관계형 데이터베이스라 하며 정보 저장소라 봐도 무방하다.
+H2는 관계형 데이터베이스의 한종류로 서버가 켜져 있는 동안에만 작동하는 데이터베이스라 스프링 개발하면서 쓰기에 좋다.
+스프링은 자바로 작동하고, 데이터베이스는 sql언어로 작동한다.
+jpa는 이런 자바를 sql로 번역해주는 기능을 한다.
+Repository 데이터에 접근할때 사용하는 하나의 도구로 jpa를 작동시키는데 사용하는 매게체이다.
+현업에서는 데이터를 주고 받을때 클래스 모델을 그대로 쓰지않고, DTO라는 모델을 쓴다
+lombok으로 코드를 절약할수 있다고 한다.
+
+RDBMS는 매우 고도화된 엑셀이라 생각해도 된다.
+H2는 in-memory DB의 대표주자로 서버가 작동을 멈추면 데이터가 모두 삭제되는 데이터베이스로 서버 개발 연습용으로 좋다.
+MYSQL은 서비를 배포할때 사용하는 DB로 스프링과 궁합이 좋아서 많은 회사에서 사용하고 있다.
+
+h2를 사용하기 위해 설정을 해줘야하는데 src폴더 -> resources폴더 -> appolication.properties에 아래의 두 코드를 붙여넣어야한다.
+#스프링에 h2라는 데이터베이스의 콘솔을 보이게 해달라
+spring.h2.console.enabled=true
+#스프링에 쓸 데이터베이스로 h2를 쓸것이다. 언어는 mysql을 쓸것이다.
+spring.datasource.url=jdbc:h2:mem:testdb;MODE=MYSQL
+
+http://localhost:8080/을 스프링 개발동안 자주 쓸건데 풀이하자면 로컬 호스트라는 내 컴퓨터의 방에서 스프링에게 할당된 8080번 방을 들어가는것을 말한다.
+
+sql문
+CREATE TABLE IF NOT EXISTS courses #course라는 테이블이 만약 없다면 생성해줘라
+{
+id bigint(5) NOT NULL AUTO_INCREMENT #id는 열 이름을 말한다. bigint는 자바로 치면 long을 말하며 가로안 숫자 5는 값이 들어갈 공간을 말한다. NOT NULL은 어느 하나도 비면 안된다. AUTO_INCREENT는 행 생성시 숫자를 자동으로 집어넣는다.
+title varchar(255) NOT NULL #varchar은 문자값을 말하고(255)는 문자가 들어가는 공간이다.
+PRIMARY KEY(id) #id 열을 기본키로 설정한다는 거다.
+}
+
+INSERT INTO courses (title, tutor) #course에 값을 집어넣는데 값을 집어넣을 열은 title과 tutor이다.
+       VALUES('웹개발의 봄, Spring', '남병관'), ('웹개발 종합반', '이범규'); #첫행은 ('웹개발의 봄, Spring', '남병관'), 다음행은 ('웹개발 종합반', '이범규') 값을 집어넣는다.
+SELECT * FROM courses; #course 테이블의 *(모든것)을 조회해라.
+
+이런 SQL문은 Spring Data JPA를 사용한다면 자바를 통해 구현가능하다.
+
+JPA는 sql쓰지 않고 데이터를 생성, 조회, 수정, 삭제 할수 있게 도와주는 번역기이다.
+스프링의 도메인 = mysql의 테이블
+스프링의 Repository = mysql의 sql
+스프링을 개발할때 만드는 Repository와 도메인은 보통 com.주소.프로젝트명 폴더 안에 domain이라는 패키지를 생성한뒤 그안에 만든다.
+도메인 패키지안에 생성한 자바 클래스 테이블 생성 양식
++++
+@NoArgsConstructor // 기본생성자를 대신 생성해줍니다.
+@Entity // 테이블임을 나타냅니다.
+public class Course {
+
+    @Id // ID 값, Primary Key로 사용하겠다는 뜻입니다.
+    @GeneratedValue(strategy = GenerationType.AUTO) // 자동 증가 명령입니다.
+    private Long id;
+
+    @Column(nullable = false) // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
+    private String title;
+
+    @Column(nullable = false)
+    private String tutor;
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getTutor() {
+        return this.tutor;
+    }
+
+    public Course(String title, String tutor) {
+        this.title = title;
+        this.tutor = tutor;
+    }
+}
++++
+도메인 패키지 안에 패키지안 생성한 클래스명+Repository라는 이름을 가진 인터페이스 파일을 생성해준다.
+public interface CourseRepository extends JpaRepository<Course, Long> {
+}
+를 집어넣어주는데 해석하자면 CourseRepository에 뒤에있는 기능을 가져와 쓸것이다. JpaRepository 를 쓸것이다. Course라는 녀석에게 넣어줄것이고, id의 형태는 Long이다. 클래스를 보면 @Id라고 붙은 곳의 자료형이 Long이였는데 이 자료형을 써주게 되있다.
+
+인터페이스는 클래스에서 멤버가 빠진 메소드 모음집이다.
+
+아래 코드는 application.properties 파일에 들어가는 코드이다.
+#스프링이 jpa로 작동을 할때 sql을 보여줘라
+spring.jpa.show-sql=true
+
+
+jpa와 repository를 사용할때 인스턴스 생성은 다음과 같다.
++++
+@Bean
+    public CommandLineRunner demo(CourseRepository repository) {
+        return (args) -> {
+            Course course1 = new Course("웹개발의 봄 스프링", "남평관");
+            repository.save(course1);
+            List<Course> courseList = repository.findAll();
+            for(int i = 0; i < courseList.size(); i++){
+                Course c = courseList.get(i);
+                System.out.println(c.getTitle());
+                System.out.println(c.getTutor());
+            }
+
+        };
+    }
++++
+
+DB의 기본 중의 기본은 생성일자와 수정일자를 필드로 가지는 것이다. 언제 생성됐고, 언제 수정됐는지 아는것이 관리의 기본이다.
+Timestamped라는 클래스를 하나 만들고 여기에 생성일자와 수정일자를 넣어놓고 여러군데에서 각각 상속해 가져오게 하면 다양하 테이블 생성할때 간단히 사용할수 있다.
+도메인 패키지에 Timestamped 클래스 파일을 생성한다.
++++
+@MappedSuperclass // 상속했을 때, 컬럼으로 인식하게 합니다.
+@EntityListeners(AuditingEntityListener.class) // 생성/수정 시간을 자동으로 반영하도록 설정
+public abstract class Timestamped { //abstract -> 이건 상속으로만 쓸수 있다
+
+    @CreatedDate // 생성일자임을 나타냅니다.
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate // 마지막 수정일자임을 나타냅니다.
+    private LocalDateTime modifiedAt;
+}
++++
+그뒤 같은 도메인 패키지 안에 있는 도메인을 생성해주는 파일 안 클래스명 옆에 extends Timestamped를 써서 상속을 받아주고 프로젝트명+application파일 위에 @EnableJpaAuditing를 붙여줘야만 스프링을 통해 완벽히 수정일등이 반영이된다.
+
+CRUD란 정보관리 기본 기능으로 생성, 조회, 변경, 삭제를 다룬다.
+jpa로 crud
+jpa 심화 보기
++++
+// 데이터 저장하기
+            repository.save(new Course("프론트엔드의 꽃, 리액트", "임민영"));
+
+// 데이터 전부 조회하기
+            List<Course> courseList = repository.findAll();
+            for (int i=0; i<courseList.size(); i++) {
+                Course course = courseList.get(i);
+                System.out.println(course.getId());
+                System.out.println(course.getTitle());
+                System.out.println(course.getTutor());
+            }
+
+// 데이터 하나 조회하기
+            Course course = repository.findById(1L).orElseThrow(  //orElseThrow는 만약 조회되지 않으면 이렇게 하라는 의미로 씀
+                    () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")//가르키는게 없을때 대처방법("해당 아이디가 존재하지 않습니다."
+
+            );
++++
+
+스프링은 크게 controller(가장 바깥 부분, 요청/응답 처리)와 service(중간부분, 실제 중요작동 많이 일어남), repository(가장 안쪽 부분, DB와 맞닿아 있음)로 나뉘어져 있다.
+업데이트는 서비스에서 작성한다.
+서비스 파일 만들때 위치: com.주소.프로젝트명 패키지안에 service 패키지를 생성. 그뒤 클래스명+Service 클래스 파일을 만든다.
++++
+@Service // 스프링에게 이 클래스는 서비스임을 명시
+public class CourseService {
+
+		// final: 서비스에게 꼭 필요한 녀석임을 명시
+    private final CourseRepository courseRepository;
+
+		// 생성자를 통해, Service 클래스를 만들 때 꼭 Repository를 넣어주도록
+		// 스프링에게 알려줌
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
+
+    @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려줌
+    public Long update(Long id, Course course) {
+        Course course1 = courseRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
+        );
+        course1.update(course);
+        return course1.getId();
+    }
+}
++++
+
+롬복은 자바 프로젝트를 진행하는데 거의 필수적으로 필요한 메소드, 생성자들을 자동생성해줌으로 코드를 절약할 수 있도록 도와주는 라이브러리이다.
+설정에서 어노테이션 프로세서를 찾은 뒤 어노테이션 처리 활성화에 체크, 플러그인으로 Lombok을 설치하면 기본적인 설정이 완료된다.
+Lombok의 사용 방법 중 하나인 @Getter를 예시로 들자면 클래스 위에 적을시 클래스 내 멤버변수를 일일이 get메소드로 선언해주지 않아도 자동으로 적용된다.
+@RequiredArgsConstructor의 경우 service 클래스에 넣는데 private final CourseRepository courseRepository; 같이 final을 선언해 무조건 값을 받을 필요가 있는 변수에 값을 받는 생성자가 만들어 졌다고 쳐준다.
+
+DTO는 Data Transfer Object의 약자로 데이터를 전달하고 주고받을때는 새로 클래스를 만들어서 하자는 뜻이다.
+데이터테이블이 담겨있는 클래스를 그대로 가져다 쓴다면 데이터를 타인이 변경해 버릴수도 있기에 이에 대한 대비로 완충재로 작용하는 DTO를 만들어준다.
+보통 도메인 패키지 안에 클래스 형태로 만들어준다.
