@@ -1,0 +1,72 @@
+api는 클라이언트와 서버간의 약속으로 클라이언트가 정한대로 서버에게 요청을 보내면, 서버가 요구사항을 처리하여 응답을 반환한다.
+rest(주의:restcontroller과 다른 rest이다)란 주소에 명사, 요청방식에 동사를 사용함으로써 의도를 명확히 드러내는것을 말함.
+여기에 쓰이는 동사는 CRUD를 지칭하는데 생성은 POST, 조회는 GET, 수정은 PUT, 삭제는 DELETE를 쓴다.
++++
+ex)
+GET /course
+->강의 전체 목록 조회 요청
+GET /courses/1
+->id가 1번인 녀석 조회 요청
+-POST /course
+->강의 생성 요청
++++
+주의 할 점으로 주소에 들어가는 명사들은 복수형을 사용해야한다.(ex) course -> courses로 바꿔주자.
+또한 주소에 동사는 가급적이면 사용하지 않는다.
+
+API를 만들고 테스트 할때 테스트코드를 작성하거나 ARC와 같은 툴을 사용해서 테스트 및 기능을 확인한다고 한다.
+ARC 사용법
+GET, DELETE 작동 여부를 확인할때는 타입을 GET, DELETE로 두고 주소창에 로컬호스트 GET, DELETE 주소를 적어주면 된다.
+POST, PUT 작동 여부를 확인할때는 각각 POST, PUT타입을 지정한후 HEADERS탭에서 add버튼을 눌러주면 뜨는 name란에 Content-Type을 Value에는 application/json을 써주면된다.
+이미 정의된 단어들이기에 반드시 지킬것.
+그뒤 BODY탭을 눌러 해당 코드창에 {}를 쓰고 안에 json어로 "컬럼명" : "집어넣을데이터", "컬럼명" : "집어넣을데이터" 를 넣어주면 데이터가 들어가진다.
+그뒤 GET을 통해 수정되었는지 확인하면 된다.
+
+주소를 만들때 유동적으로 값이 변화는 주소는 {id} 등으로 중괄호 안에 변형되는 값의 변수를 집어넣어 준다.
+@PathVariable Long id 이걸 써줘야 한다. -> 해석하자면 주소창 중괄호 안에 Long id의 값을 넣겠다는 뜻이다.
+
+
+RESTful이란?
++++++
+안정적이면서 확장이 가능하게 하기 위해 restpi가 고안되었다.
+대부분의 아키텍쳐는 복잡한걸 심플하게, 심플하면서도 성능이 떨어지지 않게, 그러면서도 안정적인걸 원칙으로 하고, REST아키텍쳐역시 마찬가지이다.
+restful이라는건 RESTAPI의 제약조건을 거의 지킨것을 말한다.
+상태가 없는 무국적 서버야한다.(스테이터스 리스여야한다.) 언제 어디서 누가 요청해도 똑같은 결과값을 줘야한다. 물론, 접속권한 다르면 다른결과값 줄수 있다.
+요청했던 값이 똑같은데 다른 결과값이 나오는 경우가 있어서는 안된다.
+단, 현지시간 조회의 경우는 예외이다.
+
+캐시도 중요(연산값을 임시저장)하다.
+캐시는 언제든 가능해야한다.
+캐싱를 만들지 않으면 동시접속자가 많을때 웹서버 죽어버리기도 했다고 한다.
+
+통일된 인터페이스 필요.
+API인터페이스는 주소가 될수도, 바디가 받는 데이터의 형식일수도 있다.
+이런 형식 자체를 규칙성 있게 일관적으로 그리고 최대한 단순화해서 만들어야한다.
+
+계층화된 시스템이어야 한다. 무국적, 캐쉬랑 비슷해 위 상황을 지킬시 이역시 자연스럽게 지켜진다.
+이 또한 확장성과 안정성 보장을 위한 시스템이다.
+
+마지막으로 주문형 코드는 알아서 지켜지는 거라 무시해도 된다.
+
+put은 리소스 자체를 업데이트해 없는건 없는 값이 들어가 완전히 수정됨
+patch는 리소스를 업데이트, 없는 값을 보내주진 않아 부분 수정이 가능해짐.
++++++
+
+jpa 사용시 참고 사이트(https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods) jpa 사용시 명령문들 적혀 있음
+ex) jpa 명령 예제.List<memo>(메모 리스트에서) findAll(모두 찾아줘)By(OrderBy같은 정렬쓰기전 앞에 써야함)OrderBy(정렬해줘)ModifiedAt(이 변수를)Desc(내림차순)();
+
+변경기능을 사용할때 1일차에서도 언급됐듯이 서비스를 만들어야 한다.
+서비스 만들때 꼭 빼놓지 말아햐 하는것은 @RequiredArgsConstructor(꼭 생성자에 값이 들어가야한다고 선언해주는 거임), @Service(서비스라고 선언해주는거임), @Transactional(업데이트할때 DB에 진짜 반영 되야 한다고 선언해주는거임)
+
++++
+@DeleteMapping("/api/memos/{id}")
+    public Long deleteMemo(@PathVariable(위에 주소에 있는 {}안의 주소에 넣어진 값을 여기 있는 변수에 넣어주겠다는 뜻)  Long id){
+        memoRepository.deleteById();
+    }
+
+   @PostMapping("/api/memos")
+    public Memo createMemo(@RequestBody(요청이 날아올때 body에 들어있는 값을 여기에 넣어달라는 선언) MemoRequestDto requestDto){
+        Memo memo = new Memo(requestDto);
+        return memoRepository.save(memo);
+    }
++++
+JSON은 JavaScript Object Notation의 약자로 자바 스크립트의 일종의 클래스라 생각하면 된다.

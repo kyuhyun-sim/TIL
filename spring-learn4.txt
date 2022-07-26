@@ -1,0 +1,45 @@
+네이버 오픈 api 목록
+https://developers.naver.com/products/intro/plan/plan.md
+네이버 개발자 센터
+https://developers.naver.com/main/
+네이버 쇼핑 api 설명 문서(자료와 달리 주소가 바껴있어서 바뀐 주소를 집어넣었다.
+https://developers.naver.com/docs/serviceapi/search/shopping/shopping.md
+오늘은 위 항목들을 이용해서 네이버 쇼핑 api를 이용해보기로 했다.
+
++개인 프로젝트 진행+
+게시글 하나 조회하는 기능 오류
+처음 고안한 코드
+@GetMapping("/api/post/{id}")
+    public List<FreeBoard> readWrite(@PathVariable Long id){
+
+        return freeBoardRepository.findById(id);
+    }
+
+오류가 남.
+findbyid를 했을때 리턴값이 null이었을 경우 어떻게 해줄지 설정을 해주지 않았다는것을 깨달음.
+orElseThrow를 써보기로 함.
+
+@GetMapping("/api/post/{id}")
+    public List<FreeBoard> readWrite(@PathVariable Long id){
+
+        return freeBoardRepository.findById(id).orElseThrow(
+                () -> IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+    }
+
+여전히 오류가 남
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
+이 JSON 쿼리 메소드가 기록된 사이트에서 JSON 명령어들을 찾아보기로 함.
+ Optional<T> findById(ID primaryKey); 를 발견
+Optional<T>는 null이 올 수 있는 값을 감싸는 Wrapper 클래스로, 참조하더라도 NPE가 발생하지 않도록 도와준다고한다.
+
+@GetMapping("/api/post/{id}")
+    public Optional<FreeBoard> readWrite(@PathVariable Long id){
+
+        return freeBoardRepository.findById(id);
+    }
+
+정상적으로 출력됨.
++++
+
+@JsonIgnore  //변수의 값을 저장은 하고 싶으나 데이터베이스에 값을 보이기 싫을때 사용됨.
