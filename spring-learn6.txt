@@ -1,0 +1,13 @@
+int, char 같은 기본타입은 자바에서 객체클래스가 아니기에 제네릭의 클래스로 들어갈수 없다.
+각 기본 데이터 타입의 wrapper클래스로 기본 데이터 타입을 객체로 포장해 제네릭에 집어넣을수 있다.
+Interger은 int의 wrapper클래스이다.
+
+nohup 강제 종료 하는 법
+https://jg-han.tistory.com/78
+
+nohup(계속 실행) 하는 법
+nohup 실행 프로세스 &
+
+우분투 시간 한국시간으로 설정하는 법
+sudo dpkg-reconfigure tzdata
+
