@@ -1,0 +1,44 @@
+수정, 삭제 API의 request를 어떤 방식으로 사용하셨나요? (param, query, body)
+*query
+어떤 상황에 어떤 방식의 request를 써야하나요?
+*데이터를 조회할때는 GET 방식의 API를 사용, 생성할때와 비밀번호 확인같은 입력값이 데이터에 저장된 값과 맞는지 체크할때는 POST 방식의 API를 사용해줘야 합니다.
+또한 수정의 경우 입력된 데이터의 모든 값을 써줘야하는 PUT이나 일부의 값만 써줘도 되는 PATCH를 사용합니다.
+마지막으로 삭제의 경우 DELETE API를 사용하여 줍니다.
+
+ RESTful한 API를 설계했나요? 어떤 부분이 그런가요? 어떤 부분이 그렇지 않나요?
+JPA 레포지토리를 만들어 전체 데이터값이 조회되면 캐싱되게 하였고, API 주소또한 비록 요구사항 명세서에서 요구한대로 그대로 만들었지만 일관되고 단순하게 만들어 주었습니다.
+또한 기본적으로 언제 어디서 누가 요청 하든간에 tite, contents, author, password에 대한 요청값이 동일하면, 해당 칼럼들은 동일한 결과값을 반환하게 만들었습니다.
+단 POST 방식으로 테이블을 생성할때마다 기본키가 되는 id 값이 1씩 증가하여 저장되고, 생성 시간과 PUT 방식을 사용할시 변경되는 수정시간은 순서나 시간에 따라 요청값이 같아도 다른 값이 저장됩니다.
+
+적절한 관심사 분리를 적용하였나요? (Controller, Repository, Service)
+*controller과 repository와 service로 분리하였습니다.
+
+작성한 코드에서 빈(Bean)을 모두 찾아보세요!
+*com.sparta.spring1.controller.FreeBoardController.java -> FreeBoardController, ApiResult<?>
+com.sparta.spring1.domain.FreeBoardRepository.java -> FreeBoardRepository
+com.sparta.spring1.service.FreeBoardservice.java -> FreeBoardService
+com.sparta.spring1.service.PasswordConfirm -> PasswordConfirm
+com.sparta.spring1.Spring1Application -> Spring1Application
+
+API 명세서 작성 가이드라인을 검색하여 직접 작성한 명세서와 비교해보세요!
+*게시글을 수정하는 경우 put을 쓴 반면에 작성 가이드라인에서는 patch를 사용하였다, 
+
+
+프로젝트 만들때 추가할수 있는 개발 도구중 Mustache 는 View Templates를 만들어 주는 도구이다.
+View Templates에게는 모델이 있다.
+controller는 처리과정을 담당, model은 data를 관리.
+데이터(Model), 화면(View), 처리(Controller)를 나눠서 담당하는 과정을 MVC패턴이라고 한다.
+mustache를 사용하려면 추가로 플러그인에서 mustache를 다운받아줘야한다.
+html이랑 비슷한데 templates에 만들어준다. 확장자명은 mustache
+
+#doc 한다음에 탭을 누르면 기본 html 코드가 자동으로 작성된다.
++++
+@GetMapping("/hi")
+    public String niceToMeetYou(Model model){ // 모델 임포트도 추가해준다.
+        model.addAttribute("username", "규현"); //username이라는 변수에 규현이라는 값을 넣어준다.
+        return "greetings";  //templates/greetings.mustache 를 알아서 찾아서 브라우저에 집어넣어준다.
+    }
++++
+mustache 문법
+<h1> {{변수}} 님 반갑습니다. <h1>
+이런식으로 중괄호 두개 안에 변수명을 써주면 유동적으로 값을 변화시킬수 있다.
