@@ -1,0 +1,4 @@
+RestController 반환값이 모두 Object 타입이면 문제없으나 일반적인 API는 반환하는 리소스에 Value만 있지 않다.
+상태코드, 응답 메시지 등이 포함될 수도 있다.
+그럴때 사용되는 것이 ResponseEntity Class 이다.
+ResponseEntity는
