@@ -1,0 +1,23 @@
+@JsonBackReference
+@OnToMany(mappedby = "post") 양방향 맺기
+private List<Comment> comment>;
+
+cascade = cascadetype.all
+orphanremoval = true
+
+dirty체크
+
+jpa에서는 @OneToOne, @OneToMany, @ManyToOne, ManyToMany 어노테이션을 이용해 테이블간의 관계를 맺어줄수 있다.
+테이블 사이에서는 양방향, 단방향이라는 개념이 없지만 jpa엣는 그 개념이 존재한다.
+단방향일때는 한쪽에서만 관계를 참조해 조회해올 수 있고, 양방향일때는 양쪽이 참조하고 있어 양쪽에서 조회해 올 수 있다.
+
+fetch = FetchType.EAGER 즉시 로딩일시 사용한다.
+조인시 조인 관련 쿼리를 한번에 다 조회한다.
+문제 발생시 지연 로딩을 사용. 실무에서는 지연 로딩을 선호한다.
+
+@OneToMany 는 참조 당하는 주체에게 선언, @ManyToOne은 참조를 하는 다수의 쿼리(게시글과 댓글을 비교하면 댓글쪽. 하나의 게시글에 다수의 댓글을 상상하면 된다.)
+cascade = CascadeType.REMOVE 는 이 쿼리가 삭제되면 이 쿼리를 참조한 쿼리도 삭제되게 만들때 사용한다.
+@OrderBy(id asc)를 사용하면 이 쿼리를 참조하는 쿼리들이 순서대로 정렬되어 표시된다.
+
+https://dev-coco.tistory.com/132
+n+1 영속성 컨켁스트
