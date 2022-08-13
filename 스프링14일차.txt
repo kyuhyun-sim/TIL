@@ -1,0 +1,32 @@
+시큐리티와 jwt 공부
+https://velog.io/@jkijki12/Spirng-Security-Jwt-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
+
+@AuthenticationPrincipal 어노테이션을 통해 유저정보를 컨트롤러 단으로 가져오는 법
+https://velog.io/@sonaky47/Spring-Security-Jwt-%ED%86%A0%ED%81%B0%EC%A0%95%EB%B3%B4%EB%A1%9C-%ED%95%84%ED%84%B0%EB%A7%81-%EB%90%9C-%EC%9C%A0%EC%A0%80%EC%A0%95%EB%B3%B4%EB%A5%BC-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC%EB%8B%A8%EC%97%90%EC%84%9C-AuthenticationPricipal-%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84-%ED%86%B5%ED%95%B4-%EA%B0%80%EC%A0%B8%EC%98%A4%EB%8A%94%EB%B2%95
+
+*배포전 버그를 최대한 찾아내는 방법
+블랙박스 테스팅: 소프트웨어 내부 구조나 동작원리를 모르는 블랙박스와 같은 상태에서, 즉 웹 서비스의 사용자 입장에서 동작을 검사하는 방법.
+장점 - 누구나 테스트 가능
+단점 - 기능이 증가될 수록 테스트의 범위가 증가, 테스트 하는 사람에 따라 테스트 퀄리티가 다를 수 있음(QA 직군이 있는 이유)
+
+개발자 테스트: 개발자가 직접 본인이 작성한 코드를 검증하기 위해 테스트 코드를 작성.
+장점 -  빠르고 정확한 테스트 가능(예상동작 vs 실제 동작), 테스트 자동화 가능, 리팩토링 후 기존 동작에 대한 보증수표
+단점 - 개발시간이 오래걸리며 테스트 코드를 유지보수하는 비용이 증가함.
+ #하지만 스프링에서는 테스트코드 작성을 잘 할 수 있는 환경을 제공해줌.
+
+댓글에 대댓글을 투가하는 기능의 경우 부모댓글과 자식댓글로 나눌 필요가 있어보인다.
+최신댓글이 맨위로 올라가야하니까 날짜값을 받아오고, asc로 하면 될거같다.
+
+대댓글
+https://gimmesome.tistory.com/176
+
+상품 이미지 수정
+https://kimvampa.tistory.com/237
+
+@JsonBackReference
+@OnToMany(mappedby = "post") 양방향 맺기
+private List<Comment> comment>;
+
+dirty체크
+
+
