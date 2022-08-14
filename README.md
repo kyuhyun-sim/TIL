@@ -1,4 +1,4 @@
-# TIL
+# Troubleshooting
 항해 6주차부터는 매니저님의 추천으로 README에 troubleshooting을 작성해 보려고 한다.
 앞으로 이곳은 프로젝트를 진행 중 troubleshooting을 한 내역들을 적어보려고 한다.
 
