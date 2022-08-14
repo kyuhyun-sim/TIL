@@ -1,6 +1,6 @@
 # Troubleshooting
 항해 6주차부터는 매니저님의 추천으로 README에 troubleshooting을 작성해 보려고 한다.
-앞으로 이곳은 프로젝트를 진행 중 troubleshooting을 한 내역들을 적어보려고 한다.
+앞으로 Til 파일이 아닌 이곳에다가 프로젝트를 진행 중 troubleshooting을 한 내역들을 적어보려고 한다.
 
 ## 1대N 매핑시 순환참조 오류
 게시글 테이블과 댓글 테이블을 1대N, N대1로 매핑할시 순환 참조하는 오류가 발생했다.
