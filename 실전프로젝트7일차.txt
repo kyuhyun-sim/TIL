@@ -1,0 +1,4 @@
+카카오에서 받아온 멤버 정보의 프로필 수정에서 update 가 되지 않는 문제가 발생했다.
+쿼리안에 memberepository 가 존재하지 않는 것이 원인이었다.
+update 가 sql 문으로 insert가 되야 하는데 이때 jpa 기능이 필요했다.
+jpa영속성 컨텍스트를 만들기 위해서는 repository가 존재해야 했기에 member 객체를 토큰값에서 뽑아서 사용하며 repository를 사용하지 않기에 memberRepository.save(member)을 사용하지 않는이상 jpa를 사용할 수 없어 update가 insert문으로 변환되지 않아 DB상에 저장되지 못하는 것이었다.
