@@ -1,0 +1,4 @@
+@Async란?
+스프링에서 제공해주는 Thread Pool을 활용하는 비도기 메소드 지원 어노테이션이다.
+기존 java.util.concurrent.ExecutorService을 활용해서 비동기 방식의 method를 정의 할 때마다, Runnable의 run()을 재구현해야 하는 등 동일한 작업들의 반복이 잦다는 문제가 있었다.
+이를 이 Async 어노테이션을 사용하여 간단히 구현해 줄 수 있게 되었다.
