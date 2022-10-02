@@ -1,0 +1,32 @@
+SSE 알림 기능을 구현할 방법을 찾던 중 참고하기 좋은 블로그를 찾게 되었다.
+https://gilssang97.tistory.com/69
+
+이에 따르면 스프링 프레임워크에서 2015년 4.2 버전 부터는 SseEmitter 클래스를 제공하여 서버 사이드에서 SSE 통신 구현이 가능하게 되었다고 한다.
+이 경우 JS 측에서는 EventSource를 이용하여 연결 생성 및 전송된 이벤트에 대한 제어가 가능하다고 한다.
+JS 측에서 이 EventSource를 이용하여 연결 생성 요청을 서버에 보낸다면 서버에서는 이를 처리해 연결을 진행 시켜줘야 하는데 이를 위해 서버에서 이 요청을 처리해줄 부분을 구현해야 한다.
+
+이를 위해 먼저 Controller 부분을 구현할 필요가 있다.
+연결 요청을 처리하기 위해, MIME Type(/로 구분하는 주소 체계라 이해하면 된다) 을 text/event-stream 형태로 받아줘야 한다고 한다.
+그리고 헤더에 가끔 Last-Event-ID 라는 값을 담기도 하는데 이 값은 이전에 받지 못한 이벤트가 존재하는 경우(SSE 연결에 대한 시간 만료나 종료로 인해), 받은 마지막 이벤트 ID값을 넘겨 그 이후의 데이터(받지 못한 데이터)부터 받을 수 있게 할 수 있는 정보를 의미한다.
+즉, 항상 전달 받는 정보는 아니기에 필수 정보는 아니지만 구현해 두는 것이 좋다.
+이를 코드로 구현하면 아래와 같다고 한다.
+
+```java
+@RestController
+@RequiredArgsConstructor
+public class NotificationController {
+    private final NotificationService notificationService;
+
+    @ApiOperation(value = "알림 구독", notes = "알림을 구독한다.")
+    @GetMapping(value = "/subscribe", produces = "text/event-stream")
+    @ResponseStatus(HttpStatus.OK)
+    public SseEmitter subscribe(@AuthenticationPrincipal MemberDetails memberDetails,
+                                @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
+        return notificationService.subscribe(memberDetails.getId(), lastEventId);
+    }
+}
+```
+이와중 @ApiOperation 은 swagger을 빌드해야 사용할수 있다는 것을 알게되었다.
+api를 정리하는 명세서로 현업에 중요하다고하니 추후 해봐야겠다.
+
+@AuthenticationPrincipal은 현재 로그인한 사용자의 정보를 가져오는 어노테이션으로 시큐리티를 통해 제공받는 어노테이션 중 하나이다.
