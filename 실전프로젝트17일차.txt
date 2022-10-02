@@ -1,0 +1,11 @@
+Auto scaling이란 정책에 따라서 시스템을 자동으로 늘리고 줄여주는 서비스다.
+이를테면 이런식으로 동작한다. 갑자기 트래픽이 폭주하면 서비스에 참여하고 있던 서버들의 CPU 사용률이 점점 높아진다.
+그러다 CPU 점유율이 80%를 넘게되면 미리 준비된 이미지(AMIs)를 이용해서 인스턴스를 생성하고, ELB에 연결해서 트래픽을 새로 생성한 EC2 인스턴스에 분산한다. 트래픽이 줄어들면서 CPU 사용률이 20% 아래로 떨어지면 EC2 인스턴스가 순차적으로 제거된다.
+비용을 절감할 수 있다.
+
+https://www.sunny-son.space/AWS/AWS%20CodeDeploy%EC%99%80%20ELB%EB%A5%BC%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EB%AC%B4%EC%A4%91%EB%8B%A8%20%EB%B0%B0%ED%8F%AC%20-%201/
+https://inpa.tistory.com/entry/AWS-%F0%9F%93%9A-EC2-%EC%98%A4%ED%86%A0-%EC%8A%A4%EC%BC%80%EC%9D%BC%EB%A7%81-ELB-%EB%A1%9C%EB%93%9C-%EB%B0%B8%EB%9F%B0%EC%84%9C-%EA%B0%9C%EB%85%90-%EA%B5%AC%EC%B6%95-%EC%84%B8%ED%8C%85-%F0%9F%92%AF-%EC%A0%95%EB%A6%AC
+
+https://us02web.zoom.us/rec/play/Osk859WCohgHqQRL6npDPHb1N5pr7GqmhJlYyi1qr6iu2fgjSh8gowQQbmx83EW3eGadFE38WOoaoBVv.XJ5R7fGYze8BFP3u?continueMode=true&_x_zm_rtaid=dCius4sdRXOFYZgD5HANEg.1663132279877.88c1aa3927c1d6c063122806f33a4f2b&_x_zm_rhtaid=110
+
+암호: sZS1w!*y
