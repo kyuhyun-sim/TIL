@@ -1,0 +1,7 @@
+@Transactional(readOnly=true)
+해당 옵션을 주면 Spring Framework가 Hibernate Session의 Flush 모드를 Manual로 설정하여, 강제로 flush()를 하지 않는 한 flush()가 일어나지 않는다.
+트랜잭션이 커밋되어도 플러시되지 않음
+flush() 할 때 일어나는 스냅샷 비교와 같은 무거운 로직을 수행하지 않음 -> 성능 향상
+트랜잭션 시작, 로직수행, 커밋은 똑같이 동작함
+
+@GetMapping("/missions/done/{missionId}" 지우기(*****)
