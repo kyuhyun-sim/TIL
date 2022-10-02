@@ -1,0 +1,18 @@
+erd 다이어그램을 다시 작성한뒤 DB스키마를 작성하였다.
+그뒤 깃 액션을 맡아보기로 했다.
+생활 코딩을 보며 이해한 개념들.
+깃 액션을 만들때 깃허브의 actions 탭에서 workflow를 만들어야 한다.
+이때 yml 파일을 생성하는데 이 때 들어가는 코드의 설명들은 아래와 같다.
+runs-on: ubuntu-latest는 우분투에서 실행해라
+steps의 실제 동작하는 코드는 run에 적는다.
+pwd는 우분투안에서 실제 사용자가 어디에 위치하고 있는지 보여주는 명령어
+run: ls-al 의 경우 우분투 안의 파일을 보여주는 기능
+
+깃 액션의 기본적인 흐름을 이해한뒤 아래의 두 블로그를 참고하여 빌드후 aws 무중단 배포를 시도해보았다.
+*aws 무중단 배포 방법
+https://isntyet.github.io/deploy/github-action%EA%B3%BC-aws-code-deploy%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-spring-boot-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0(1)/
+*깃 이그노어 처리된 properties 파일을 만들어서 배포하는 법
+https://determination.tistory.com/entry/Github-Actions%EB%A1%9C-properties-%ED%8C%8C%EC%9D%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0
+
+
+사진 업로드를 s3에 해서 url 받아와서 submitmission, mission status, 관리자가 보는 apo get요청으로 가져오고.
