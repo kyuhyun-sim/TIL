@@ -1,0 +1,10 @@
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+기본 키 생성을 데이터베이스에 위임.
+id 값을 null로 하면 DB가 알아서 auto_increment 해준다.
+
+파라미터에 있는 Last-Event-Id는 서버와의 연결 오류로 인해 유실된 데이터를 다시 전송하기 위하여 클라이언트에게 마지막으로 전송한 event id 값을 보내주는 것입니다.
+required = false : Last-Event_Id는 항상 담겨있는 것이 아니기에 설정해준다.
+defaultValue = "" : 값이 담겨있지 않은 경우 isEmpty로 구분하기위해 빈 데이터 설정
+
+노헙 시 로그 실시간으로 확인 하는 방법
+tail -f nohup.out
