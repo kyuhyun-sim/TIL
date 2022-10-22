@@ -1,0 +1,26 @@
+오늘은 자료 구조 중 스택과 큐에 대해 자세히 알아보기로 했다.
+
+스택
+스택은 연결리스트의 일종으로 뒤로 넣고 뒤로만 뺄 수 있는 구조이다.
+후입선출의 구조로 가장 마지막에 들어간 데이터가 먼저 빠져 나오는 구조라 할 수 있겠다.
+일반적인 사용처로는 수식계산이나 워드프로세서의 undo/redo, 또는 웹브라우저의 뒤로/앞으로 같은 기능들을 구현할 때 활용된다.
+
+*사용 메서드
+boolean empty(): Stack 이 비어있는지 알려준다.
+Object peek(): Stack의 맨 위에 저장된 객체를 반환한다. pop()과 달리 Stack에서 객체를 꺼내지 않는다(비어있을 때는 EmptyStackException 이 발생한다)
+Object pop(): Stack의 맨 위에 저장된 객체를 꺼낸다.(마찬가지로 비어있을 때는 EmptyStackException 이 발생한다.)
+Object push(Object item): Stack에 객체(item)를 저장한다.
+int search(Object o): Stack에서 주어진 객체(o)를 찾아서 그 위치를 반환, 못 찾으면 -1을 바환한다(배열과 달리 위치가 1부터 시작하니 주의하자)
+
+큐
+마찬가지로 연결리스트의 일종으로 스택과 달리 뒤로 넣으면 앞으로 뺄 수 있는 구조이다.
+선입선출의 구조로 가장 먼저 들어간 데잍가 가장 먼저 빠져 나오는 구조라 할 수 있겠다.
+일반적인 사용처로는 최근 사용 문서, 인쇄 작업 대기목록, 버퍼, 은행 대기 목록 등의 기능들을 구현할 때 활용된다.
+
+*사용 메서드
+boolean add(Object o): 지정된 객체를 Queue에 추가한다. 성공하면 true를 반환한다. (저장공간이 부족하면 IllegalStateException이 발생한다.)
+Object remove(): Queue에서 객체를 꺼내 반환한다. (비어있으면 NoSuchElementException이 발생한다.)
+Object element(): 삭제없이 요소를 읽어온다. (peek과 달리 Queue 가 비어있을때 NoSuchElementException이 발생한다.)
+boolean offer(Object o): Queue에 객체를 저장한다. 성공하면 true, 실패하면 false를 반환한다.
+Object poll(): Queue에서 객체를 꺼내서 반환한다. 비어있으면 null을반환한다.
+Object peek(): 삭제없이 요소를 읽어온다. Queue가 비어있으면 null을 반환한다.
