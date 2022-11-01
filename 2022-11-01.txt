@@ -1,0 +1,39 @@
+@MyBatisMapper?
+MyBatis? ORM 기반의 jpa랑 다른 OM기술
+자바에서 sql mapper를 지원해주는 프레임워크
+sql문을 이용해서 rdb에 접근, 데이터를 객체화 시켜줌
+sql을 작성하여 쿼리 수행 결과를 객체와 매핑
+쿼리문을 xml로 분리 가능
+복잡한 쿼리문 작성 가능
+데이터 캐싱 기능으로 성능 향상
+but 객체와 쿼리문 모두 관리해야함, crud 메소드를 직접 다 구현해야함
+
+
+findFirst()는 filter 조건에 일치하는 element 1개를 Optional로 리턴, 조건에 일치하는 요소가 없다면 empty가 리턴.
+e.printStackTrace() : 에러의 발생근원지를 찾아서 단계별로 에러를 출력
+
+HashMap은 Map 인터페이스를 구현한 대표적인 Map 컬렉션
+많은 양의 데이터를 검색하는데 있어서 뛰어난 성능을 보임
+
+
+Collections.unmodifiableMap?
+해당 메소드는 파라미터로 전달 받은 컬렉션 객체에 어떠한 변경이라도 발생하면 예외를 return한다.
+컬렉션 객체의 변경을 막는 제약조건을 걸고 싶을 때 즉, read-only한 객체를 만들때 시용한다고 한다.
+
+
+@SuppressWarnings
+경고를 제외시킬때 사용함(코드 밑단에 노란색 줄 같은게 그어지는)
+@SuppressWarnings("serial")
+객체를 파일에 쓰거나 전송하기 위해서는 객체 클래스에 Serializable 인터페이스를 implements 하게 됨.
+하지만 Serializable 인터페이스를 implements 하게 되면 warnning이 발생하게 됨. 동작에는 문제 없지만 불필요한 warnning을 제거하기 위해 사용하는 방법
+
+
+sql문 TRIM의 경우 TRIM([[위치][제거 문자열] FROM] 문자열) 형식으로 위치에 입력되는 값은 LEADING(시작 부분), TRAILING(끝) 또는 BOTH(시작부분과 끝 부분) 이다. 제거 문자열의 경우는 위치를 기준으로 제거해준다. 제거 문자열이 없으면 공백이 제거된다.
+CAST('[변환하고자 하는 데이터]' AS [데이터 형식] 이다.
+
+
+MSSQL의 BEGIN ~ END 블록 문법
+여러가지 Transact-SQL 문을 그룹으로 묶어 실행 할 수 있도록 한다.
+저장 프로시저, 함수, 트리거를 만들 때 자주 사용되는 흐름 제어문이다.
+
+
