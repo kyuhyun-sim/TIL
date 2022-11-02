@@ -1,0 +1,33 @@
+spread 연산자
+배열을 복제할 때 for 문 없이 간편하게 배열을 복제할 수 있다.
+이 spread(...)을 사용하는 겨우 Refernce 복사가 아닌 값 복사를 하기 때문에 복사한 배열을 수정해도 기존 배열은 변하지 않는다.
+
+const arrayA = [1,2,3]; 과 const arrayB = [4,5,6]와 같은 배열을 spread를 통해 합쳐줄수도 있다.
+이런식으로 합칠수 있다.
+const arrayC = [...arrayA, ...arrayB];
+const arrayC의 배열은 [1,2,3,4,5,6] 이렇게 합쳐진다.
+
+배열이 아닌 객체에서도 동일하게 복제할 수 있다..
+const objA = {a:1, b:2};
+const objB = {...objA};
+이렇게 objB의 값을 objA와 동일하게 바꿔줄 수 있다.
+
+또한 주로 react에서 state 관리할 때 불변성을 유지하며 객체 중 일부만 update를 해야할 때 쓰인다.
+ex) const objA = {a:1, b:2, c:3};
+consst objB = {...objA, b:4}; //이때 objA를 복제 후 , b 속성만 덮어쓰게 된다. 즉, {a:1, b:4, c:3}이 된다.
+
+리액트 주요 파일 3가지
+index.js
+src 폴더에 포함되어 있다. 메인 프로그램이라고 할 수 있다.
+여기에서 HTML 템플릿 및 JavaScript의 컴포넌트를 조합하여 렌더링하고 실제 표시한다.
+
+App.js
+src 폴더에 있다.
+이것은 컴포넌트를 정의하는 프로그램이다.
+실제로 화면에 표시되는 내용 등은 여기에서 정의된다.
+
+index.html
+public 폴더에 있다.
+메인 프로그램인 index.js에 대응되는 것으로, HTML 템플릿 파일이다.
+이 파일이 직접 표시되는 것은 아니고, index.js에 의해 일어 와서 렌더링된 결과가 표시된다.
+
