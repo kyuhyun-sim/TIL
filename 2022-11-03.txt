@@ -1,0 +1,63 @@
+jquery와 달리 react는 dom api를 쓸 필요가 없게 만들어 져있기에 문법에 맞춰 상태(state)만 관리하면, 상태를 기준으로 dom api는 react에서 알아서 처리하여 dom을 렌더링하게 된다.
+
+state란?
+변하는 데이터를 말한다.
+react의 선언적인 무법으로 관리해 주면 나머지는 react가 알아서 처리하는 방식이다.
+
+react의 핵심 기능은 총 5가지가 존재한다.
+아래에 정리해보겠다.
+1) 가상돔
+가상돔은 dom의 형태를 본떠 만든 객체이다.
+아래와 같은 태그 정보가 있다고 가정하면
+<div id="container">
+  <p>VirtualDOM</p>
+</div>
+
+아래와 같은 객체로 추상화해준다.
+
+const VirtualDOM = {
+    tag: 'div',
+    props: {
+      id: 'container'
+    },
+    children: [
+      {
+        tag: 'p',
+        props: {},
+        children: ["VirtualDOM"],
+      },
+    ],
+};
+
+위와 같은 객체 형태로 데이터를 계속 추가하기 위해 createElement 함수를 만들어 준다.
+function createElement(tagName, props, ...children) {
+  return { tagName, props, children: children.flat() }
+}
+
+const VirtualDOM2 = (
+  createElement('div', { id: 'container' }, 
+    createElement('p', { style: 'color: red' }, '제목 입니다'),
+  )
+)
+
+하지만 매번 createElement 함수로 복잡한 ui를 virtualdom을 생성해 만들기는 어렵기에 이 createElement를 쉽게 사용할 수 있게 해주는 것이 두번째로 말한 jsx이다.
+
+2)jsx
+개발자가 익숙한 마크업 문법으로 개발하고, JavaScript 컴파일러인 Babel 에서 createElement 함수로 변환 해 주는 역할을 한다.
+
+3) 가상돔을 리얼돔으로 렌더링하기
+VirtualDOM은 어디까지나 객체일 뿐 이다.
+이 객체를 리얼돔으로 렌더링하려면 DOM API를 사용해야 한다.
+
+4) Diffing Update 적용
+VirtualDOM은 객체이기 때문에, 이전에 적용된 Old VirtualDOM과 New VirtualDOM을 비교해서 변경된 부분만을 손쉽게 업데이트할 수 있다.
+
+5) Hook 구현하기
+클래스 컴포넌트같은 경우, 최초로 생성되는 컴포넌트만 새롭게 인스턴스를 만들고, 컴포넌트가 삭제되기 전까지 만들어진 인스턴스를 통해 render 메서드를 이용하여 상태 변경을 감지한다.
+해당 인스턴스에서 필요한 부분만을 업데이트하여 context 상태를 계속 유지할 수 있다.
+하지만 함수 컴포넌트의 경우 props를 인자로 받아서, JSX 문법에 맞는 React Component를 반환해 주기 때문에 함수 컴포넌트의 호출은 무조건 렌더링을 일으키다.
+이미 만들어진 인스턴스를 가지고 render만 호출하는 클래스 컴포넌트와는 다르게, 함수 컴포넌트는 상태가 변경될 때마다 새로운 인스턴스를 생성하기 때문이다.
+따라서 함수 컴포넌트는 호출될 때마다 늘 동일한 상태, 초기화된 상태만 가질 수 있었다.
+하지만, React 16.8 버전부터는 함수 컴포넌트에서도 상태(State)를 갖고 유지할 수 있는 Hook을 제공해 주게 되었다.
+즉, Hook은 함수 컴포넌트에서 상태를 정의하고 수정할 수 있는 기능이다.
+조금 더 정확히는 함수 컴포넌트가 다시 실행되어도, 해당 함수의 상태(State) 값이 초기화되지 않고, React에 의해 사라지지 않는 것이다.
