@@ -1,0 +1,64 @@
+usetate와 props 사용해보기
+
+import logo from './logo.svg';
+import './App.css';
+import { useState } from 'react';
+
+function App() {
+  let post = "blog2"
+  let [platForm, setPlatForm] = useState(['naver', 'daum', 'google']);
+  let [like, setLike] = useState([0,0,0]);
+  let [modal, setModal] = useState(false);
+  let [title, setTitle] = useState(0)
+  let [putValue, setPutValue] = useState('')
+ 
+  function adder(i){
+    let copy = [...like];
+    copy[i] = copy[i]+1;
+    setLike(copy);
+  }
+
+  return (
+    <div className="App">
+      <div className='test1'>
+        <h4>blog</h4>
+      </div>
+      <button onClick={() => {let copy = [...platForm]; copy[0] = 'nate'; setPlatForm(copy);}}>추천</button>
+      <div className= 'list'>
+        <h4 onClick={() => {setModal(!modal)}}>{platForm[0]} <span onClick={adder}>좋아요</span> {like[0]} </h4>
+      </div>
+      <div className= 'list'>
+        <h4>{platForm[1]} <span>좋아요</span> 0 </h4>
+      </div>
+      <div className= 'list'>
+        <h4>{platForm[2]} <span>좋아요</span> 0 </h4>
+      </div>
+      {
+        platForm.map(function(a, i){
+          return <div className= 'list'>
+          <h4 onClick={() => {setModal(!modal); setTitle(i)}}>{platForm[i]} <span onClick={() => {let copy = [...like]; copy[i] = copy[i]+1; setLike(copy);}}>좋아요</span> {like[i]} </h4>
+        </div>
+        })
+      }
+      <input type='text' onChange={(e)=>{setPutValue(e.target.value); console.log(putValue)}}></input>
+      {
+        modal == true ? <Modal title = {title} color = {'skyBlue'} platForm = {platForm} setPlatForm = {setPlatForm}/> : null
+      }
+    </div>
+  );
+}
+
+function Modal(props){
+  return (
+    <div className="modal" style = {{background:props.color}}>
+        <h4>{props.platForm[props.title
+        ]}</h4>
+        <p>날짜</p>
+        <p>상세내용</p>
+        <button onClick={() => {let copy = [...props.platForm]; copy[props.title] = 'nate'; props.setPlatForm(copy);}}>제목 변경</button>
+        <button onClick={() => {let [copy, setCopy] = useState([...props.platForm]); copy[props.title] = 'nate'; props.setPlatForm(copy);}}>제목 변경</button>
+    </div>
+  )
+}
+
+export default App;
