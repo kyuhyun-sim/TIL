@@ -1,0 +1,125 @@
+1. useRecoilState
+atom 혹은 selector 값을 읽고 쓰려고 할 때 사용.
+useState() 와 비슷한 형태이나 기본값 대신 recoil의 상태를 인자로 받아온다.
+상태가 업데이트되면 자동적으로 리렌더링이 일어난다.
+ex)
+```javascript
+const [count, setCount] = useRecoilState(countState);
+const increaseCount = () => {
+	setCount(count +1);
+```
+사용법은 [가져오기, 수정하기]로 useState와 동일하다 생각하면 된다.
+단 selector의 경우 set를 성정해 주지 않는다면 사용하지 못하니 주의 하자.(set을 설정해야만 쓰기 가능한 상태로 바뀌기 때문이다. 그전까지는 읽기전용이라고 생각하면 된다.)
+
+이런 useRecoilState의 기능을 각각 반으로 나눠 분리할수 있는 방법이 존재한다.
+useRecoilValue와 useSetRecoilState로 각각 읽기와 쓰기만 할 수 있게 만들어준다.
+
+2. useRecoilValue
+리코일 상태의 값을 반환한다.
+이 hook은 상태를 읽을 수만 있게 만들어준다.
+ex)
+```javascript
+const count = useRecoilValue(countState);
+```
+
+3. useSetRecoilState
+리코일 상태의 값을 업데이트하기 위한 setter 함수를 반환한다.
+이 hook은 상태를 읽지 않고 쓸수 있게 만들어준다.
+
+4. useResetRecoilState
+atom이나 selector의 값을 초기화하고 싶을 때 사용한다.
+atom을 초기화해야하는 경우 아래와 같이 작성하면 초기화 할 수 있다.
+ex)
+```javascript
+const resetCount = useResetRecoilState(countState);
+...
+<button onClick = {resetCount}>reset count</button>
+```
+
+selector를 초기화 하는 경우의 코드는 아래와 같다.
+ex)
+```javascript
+import {DefaultValue, selector} from "recoil";
+import countState from "../atom/countState";
+
+export default selector({
+	key: "countSelector",
+	get: ({get}): number => {
+		const count = get(countState);
+		return count + 1;
+		},
+		set: ({set, get}, newCount:any)=>{
+			return set(
+				countState,
+				newCount instanceof DefaultValue?newCount:newCount+10,
+			)
+		}
+})
+```
+```javascript
+const resetSumCount = useResetRecoilState(sumCountSelector);
+...
+<button onclick={resetSumCount}>reset count</button>
+```
+
+useResetRecoilState로 selector를 초기화 시킬 경우 set은 DefaultValue 객체를 매개변수로 전달받는다.
+때문에 selector에서 set을 사용하려면 조건 처리를 해주어야 한다.
+위 코드의 경우 일반적으로 set을 할 경우 받아온 카운트에 1을 더해 반환해주지만, DefaultValue가 오게되면 초기값을 반환한다.
+
+Moment?
+moment는 자바스크립트에서 dates를 다루기 위한 도구다.
+깔끔하고 간결한 API를 이용하여 날짜와 시간을 분석, 검증, 조작, 표시할 수 있다.
+리액트 사용시 moment 라이브러리를 불러오는 방법은 아래와 같다.
+ex)
+```javascript
+import moment from 'moment';
+moment()
+```
+
+아래는 이 moment를 자주 사용하는 방식들이다.
+1. 날짜 지정하기
+ex)
+```javascript
+moment('2019-12-10', 'YYYY-MM-DD');
+```
+첫번째인자로 지정하고 싶은 날짜를 넣어주고, 두번째 인자로 날짜의 포맷을 지정해 주면 지정한 날짜의 Moment객체로 반환이 된다.
+
+2.Format 이용하기
+format()을 사용하면 momnet객체에서 string로 반환을 해준다.
+```javascript
+moment().format('YYYY-MM-DD'); //년도-월-일
+moment().format('hh:mm:ss'); //시:분:초
+moment().format('dddd') //요일(축약없이 요일명 전체 불러옴)
+```
+
+3. 날짜 더하고 빼기
+현재의 날짜 혹은 정해진 날짜에서 몇일 이후의 값, 몇달뒤의 값등 날짜를 더하거나 뺄 수 있다.
+ex)
+```javascript
+import moment from 'moment';
+
+moment().add(1,'days') //하루 더하기
+moment().subtract(1,'days') //하루 빼기
+moment().add(1,'months') //한달 더하기
+moment().subtract(1,'year') //1년 빼기
+```
+
+기타 유용한 정보들 아래 사이트
+https://flamingotiger.github.io/javascript/momentjs/
+
+
+리액트 suspense
+suspense는 아직 렌더링이 준비되지 않은 컴포넌트가 있을때 로딩 화면을 보여주고 로딩이 완료되면 해당 컴포넌트를 보여주는 react에 내장되어 있는 기능이다.
+
+suspense 사용이유
+보통 react.lazy와 함께 사용한다고 한다.
+spa의 단점은 한번에 사용하지 않는 모든 컴포넌트까지 불러오기 때문에 첫 화면이 렌더링 될때까지의 시간이 오래 걸린다는 것이다.
+react는 lazy를 통해 컴포넌트를 동적으로 import를 할 수 있기 때문에 이를 사용하면 초기 렌더링 지연시간을 어느정도 줄일 수 있다.
+router로 분기가 나누어진 컴포넌트들을 lazy를 통해 import하면 해당 path로 이동할 때 컴포넌트를 불러오게 도는데 이 과정에서 로딩하는 시간이 생기게 된다.
+이 로딩 시간동안 로딩 화면을 보여지도록 해주는 역할을 하는 것이 바로 suspense다.
+
+라우터 사용시 주의 할 점
+/, /movies, /reviews 이렇게 3가지 컴포넌트가 있다는 가정하에 path 속성을 통해 각각의 컴포넌트가 렌더링 되는 url 이 정해질 경우 홈페이지에 들어갔을때 /movies와 /reviews 또한 /가 매칭되기 때문에 3개의 컴포넌트가 모두 렌더링 되게 된다.
+이를 해결하기 위해 exact path를 사용하여 정확히 일치하는, 즉 부분적으로 일치하는 것이 아니라 정확하게 일치하는 url의 컴포넌트를 렌더링 시키는 방법을 이용하는것이 좋다.
+switch를 사용할 경우 여러개가 매칭되어도 가장 먼저 매칭된 맨 위의 <Route> 하나만 보여준다.
+
