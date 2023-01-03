@@ -1,0 +1,93 @@
+mssql
+
+DATEPART(옵션, 날짜)
+지정한 날짜를 옵션에 맞는 정수로 반환해주는 함수다.
+여기서 옵션이란 YEAR, MONTH, DAY, WEEK 등을 말한다.
+WHERE절에 이용할 시 CONVERT(CHAR(10), GETDATE(), 23) 이런식으로 문자열 변환 후 조건절을 걸어두는게 더 빠르지만 이 DATEPART의 경우 정수로 반환해주기 때문에 해당 값을 연산식에 재활용하기에 용의하다.
+현재 날짜 - 생일 = 나이 이런식으로 연산할때 응용할 수 있다.
+
+MSSQL 메모리 관련
+MSSQL 서버는 OS에서 메모리를 요청하지 않으면 한번 호출한 메모리를 반환하지 않고 계속 점유한다고 한다.
+이로 인해 다른 프로세스들이 메모리를 충분히 사용하지 못하여 시스템 성능이 떨어질 수 있으며 서버에 과부하가 발생하여 문제가 생길 수 도 있다.
+이를 방지하기 위해 MSSQL에서 최대 서버 메모리를 설정하여 메모리를 제한 시켜줄 수 있다.
+
+MSSQL의 메모리 제한을 따로 하지 않은 경우 최대 서버 메모리는 2,147,483,647(MB)로 되어있다.
+GB로 따지면 200만이 넘는 용량의 메모리를 점유하겠다는 소리이므로 메모리를 다 점유하겠다라는 말과 비슷하다.
+
+때문에 최대 서버 메모리를 설정하여 메모리르 ㄹ제한해야 하는데 물리적 메모리에 따른 권장 메모리 설정 값은 아래와 같다고 한다.
+2GB = 1500MB
+4GB = 3200MB
+6GB = 4800MB
+8GB = 6400MB
+12GB = 10000MB
+...
+
+T-SQL을 사용하여 MSSQL 서버의 ㅡMIN/MAX SERVER MEMORY를 확인 할 수 있다.
+ex) 
+SELECT value, minimum, maximum
+FROM sys.configurations
+WHERE name in ('min server memory (MB)', 'max server memory (MB)')
+
+다음과 같은 방법으로 MIN/MAX SERVER MEMORY 설정을 변경할 수 있다.
+ex)
+--Show advanced options 활성화 
+EXEC SP_CONFIGURE 'SHOW ADVANCED OPTIONS', 1 
+--재시작하지 않고 즉시 적용 
+RECONFIGURE WITH OVERRIDE 
+GO 
+--메모리정보 확인 
+EXEC SP_CONFIGURE 
+GO 
+ 
+--Min server memory 를 0 (MB) 로 설정 
+EXEC SP_CONFIGURE 'MIN SERVER MEMORY (MB)', 0 
+RECONFIGURE WITH OVERRIDE 
+GO 
+ 
+--Max server memory 를 13500 (MB) 로 설정 
+EXEC SP_CONFIGURE 'MAX SERVER MEMORY (MB)', 13500 
+RECONFIGURE WITH OVERRIDE 
+GO 
+ 
+--Show advanced options 비활성화 
+EXEC SP_CONFIGURE 'SHOW ADVANCED OPTIONS', 0 
+RECONFIGURE WITH OVERRIDE 
+GO 
+-- 메모리정보 확인 
+EXEC SP_CONFIGURE 
+GO
+
+
+SQL 실행계획
+사용자가 SQL을 실행하여 데이터를 추출하려고 할 때 옵티마이저가 수립하는 작업절차를 뜻한다.
+이러한 옵티마이저의 실행 단계는 3단계로 분리할수 있다.
+1단계 SQL 해석
+2단계 실행계획 수립
+3단계 실행
+
+실행계획을 읽을 때는 하위 노드 좌측부터 우측 준으로 읽어야 한다.
+
+FULL TABLE SCAN
+테이블의 전체 데이터를 읽어 조건에 맞는 데이터를 추출하는 방식이다.
+
+ROWID SCAN
+ROWID를 기준으로 데이터를 추출하며 단일 행에 접근하는 방식 중에서 가장 빠르다.
+
+INDEX SCAN
+INDEX를 활용하여 원하는 데이터를 추출하는 방식이다.
+
+FULL TABLE SCAN을 타는 상황
+1. 조건절에서 비교한 칼럼에 인덱스가 없는 경우
+2. 조건절에서 비교한 컬럼에 최적화된 인덱스는 있지만 조건에 만족하는 데이터가 테이블의 많은 양을 차지하여 FULL TABLE SCAN이 낫다고 옵티마이저가 판단하는 경우
+3. 인덱스는 있으나, 테이블의 데이터 자체가 적어 FULL TABLE SCAN이 낫다고 옵티마이저가 판단하는 상황
+4. 테이블 생성시 DEGREE 속성 값이 크게 설정되어 있는 경우
+
+옵티마이저가 판단 후 TABLE FULL SCAN을 탄다면 그냥 두는것이 좋다.
+물론 INDEX SCAN이 더 유리한데도 INDEX가 없어 FULL TABLE SCAN을 하는 경우는 INDEX를 하나 만들어 주는 것이 좋다.
+
+ROWID SCAN을 타는 상황
+1. 조건절에 ROWID를 직접 명시할 경우
+2. INDEX SCAN을 통해 ROWID를 추출한 후 테이블에 접근할 경우
+
+ROWID SCAN은 단일 행 접근이 매우 빠르기 때문에 ROWID SCAN이 유리하다고 판단될 경우 탈 수 있게끔 유도해 주는 것이 좋다.
+
