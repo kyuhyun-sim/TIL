@@ -1,0 +1,12 @@
+Spring Project resources 파일 위치
+
+일반적인 Spring Project(레거시 등)에서 소스파일은
+스타일시트(css), 이미지(image), 제이쿼리, 자바스크립트 등의 기능은 src 폴더 밑에 위치한다.
+스프링 프로젝트의 경우, Project > src(폴더)  바로 밑에 위치해 작동한다.
+
+SpringBoot Project resources 파일 위치
+
+일반적인 Spring Project(레거시 등)과 다르게 SpringBoot Project의 경우 스타일시트(css), 이미지(image), 제이쿼리, 자바스크립트 등의 기능은 src 폴더 밑에 위치한다.
+SpringBoot Project 스프링부트 프로젝트의 경우, 
+Project > src /main/resources(패키지) >static(폴더)
+밑에 위치해 작동한다.
